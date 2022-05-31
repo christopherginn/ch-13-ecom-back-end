@@ -45,6 +45,21 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', (req, res) => {
   // create a new tag
+  
+    /* req.body should look like this...
+      {
+       "tag_name": "Test name"
+      }
+    */
+    Tag.create(req.body)
+      .then((tag) => {
+        // if there's product tags, we need to create pairings to bulk create in the ProductTag model
+        res.status(200).json(tag);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(400).json(err);
+      });
 });
 
 router.put('/:id', (req, res) => {
