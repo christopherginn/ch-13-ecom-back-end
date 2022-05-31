@@ -53,7 +53,6 @@ router.post('/', (req, res) => {
     */
     Tag.create(req.body)
       .then((tag) => {
-        // if there's product tags, we need to create pairings to bulk create in the ProductTag model
         res.status(200).json(tag);
       })
       .catch((err) => {
@@ -64,6 +63,16 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
+   // update product data
+   Tag.update(
+     { tag_name: req.body.tag_name },
+     { where: { id: req.params.id} }
+  )
+  .then(() => res.json("Tag updated"))
+  .catch((err) => {
+    // console.log(err);
+    res.status(400).json(err);
+    });
 });
 
 router.delete('/:id', (req, res) => {
